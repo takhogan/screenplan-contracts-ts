@@ -1,0 +1,25 @@
+{
+  "name": "@internal/shared-contracts",
+  "version": "0.1.0",
+  "description": "Shared TypeScript types and AJV validators generated from packages/shared-contracts/schemas.",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "schemas"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "validate": "node ./test/validate-examples.mjs",
+    "test": "npm run build && npm run validate"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
