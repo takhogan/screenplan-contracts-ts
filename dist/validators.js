@@ -42,7 +42,7 @@ const _2020_1 = __importDefault(require("ajv/dist/2020"));
 const ajv_formats_1 = __importDefault(require("ajv-formats"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
-const SCHEMA_DIR = path.resolve(path.dirname(require.resolve("@screenplan/contracts-schemas/package.json")), "schemas");
+const SCHEMA_DIR = path.resolve(path.dirname(require.resolve("@screenplan/contracts-schemas/package.json")), "screenplan_contracts_schemas", "schemas");
 function loadSchema(file) {
     return JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, file), "utf8"));
 }

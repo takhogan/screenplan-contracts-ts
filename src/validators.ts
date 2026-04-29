@@ -15,6 +15,7 @@ import type {
 
 const SCHEMA_DIR = path.resolve(
   path.dirname(require.resolve("@screenplan/contracts-schemas/package.json")),
+  "screenplan_contracts_schemas",
   "schemas",
 );
 
