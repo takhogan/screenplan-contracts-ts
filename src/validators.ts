@@ -13,7 +13,10 @@ import type {
   ScriptActionArtifactsSpec,
 } from "./types";
 
-const SCHEMA_DIR = path.resolve(__dirname, "..", "schemas");
+const SCHEMA_DIR = path.resolve(
+  path.dirname(require.resolve("@screenplan/contracts-schemas/package.json")),
+  "schemas",
+);
 
 function loadSchema(file: string): Record<string, unknown> {
   return JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, file), "utf8"));
@@ -53,7 +56,7 @@ const vArtifacts   = compile<ScriptActionArtifactsSpec>("script-action-artifacts
 
 export class ContractValidationError extends Error {
   constructor(public readonly contract: string, public readonly errors: unknown) {
-    super(`shared-contracts: ${contract} validation failed: ${JSON.stringify(errors)}`);
+    super(`@screenplan/contracts: ${contract} validation failed: ${JSON.stringify(errors)}`);
   }
 }
 

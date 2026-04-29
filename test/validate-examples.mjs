@@ -1,4 +1,4 @@
-// Smoke test: validate every example JSON under packages/shared-contracts/examples
+// Smoke test: validate every example JSON under packages/screenplan-contracts/examples
 // against its corresponding schema. Run with `npm run validate`.
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -15,7 +15,7 @@ const {
   getArtifactsSpec,
 } = await import(path.join(ROOT, "dist", "index.js"));
 
-const examplesDir = path.resolve(ROOT, "..", "shared-contracts", "examples");
+const examplesDir = path.resolve(ROOT, "..", "screenplan-contracts", "examples");
 
 const cases = [
   { file: "script-status.example.json",     validator: validateScriptStatus },

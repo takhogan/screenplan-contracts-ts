@@ -42,7 +42,7 @@ const _2020_1 = __importDefault(require("ajv/dist/2020"));
 const ajv_formats_1 = __importDefault(require("ajv-formats"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
-const SCHEMA_DIR = path.resolve(__dirname, "..", "schemas");
+const SCHEMA_DIR = path.resolve(path.dirname(require.resolve("@screenplan/contracts-schemas/package.json")), "schemas");
 function loadSchema(file) {
     return JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, file), "utf8"));
 }
@@ -75,7 +75,7 @@ const vLog = compile("script-action-log.schema.json");
 const vArtifacts = compile("script-action-artifacts.schema.json");
 class ContractValidationError extends Error {
     constructor(contract, errors) {
-        super(`shared-contracts: ${contract} validation failed: ${JSON.stringify(errors)}`);
+        super(`@screenplan/contracts: ${contract} validation failed: ${JSON.stringify(errors)}`);
         this.contract = contract;
         this.errors = errors;
     }

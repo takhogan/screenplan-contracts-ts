@@ -1,4 +1,4 @@
-// Hand-written TypeScript types mirroring packages/shared-contracts/schemas.
+// Hand-written TypeScript types mirroring packages/screenplan-contracts/schemas.
 // Source of truth is the JSON schema; keep field names in sync.
 // TODO: replace with generated types (e.g. via `json-schema-to-typescript`) once
 //       the schemas stabilise.
