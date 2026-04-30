@@ -16,6 +16,16 @@ export * from "./_generated/script-status";
 // re-export only the script-specific names to avoid a duplicate identifier.
 export type { Script, ScriptActionRow, ScriptProps } from "./_generated/script";
 
+// ---- name aliases so the public surface stays stable ----
+// Generator names follow $defs keys; aliases give consumers domain-meaningful
+// names (and shield them from generator-rename churn).
+export type { ChildStub as ScriptActionLogChildStub } from "./_generated/script-action-log";
+export type { SequenceItem as EventSequenceItem } from "./_generated/event-status";
+export type { FileSlot as ArtifactFileSlot } from "./_generated/script-action-artifacts";
+// `ScriptMeta` is the inline shape of `Script['meta']` — re-derive it here
+// since the schema doesn't promote it to a $def.
+export type ScriptMeta = import("./_generated/script").Script["scriptMeta"];
+
 // ---- runtime constants (not derivable from schema) ----
 
 export const SCRIPT_ACTION_NAMES = [
