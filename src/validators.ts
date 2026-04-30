@@ -23,20 +23,35 @@ function loadSchema(file: string): Record<string, unknown> {
   return JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, file), "utf8"));
 }
 
+/** Return the raw JSON schema for the given filename (e.g. "script.schema.json"). */
+export function getSchema(name: string): Record<string, unknown> {
+  return loadSchema(name);
+}
+
+/** List every `*.schema.json` filename shipped by @screenplan/contracts-schemas. */
+export function listSchemas(): string[] {
+  return fs
+    .readdirSync(SCHEMA_DIR)
+    .filter((f) => f.endsWith(".schema.json"))
+    .sort();
+}
+
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
 
 // Register all schemas so $ref between files resolves.
 const COMMON     = loadSchema("common.schema.json");
 const ACTION     = loadSchema("script-action.schema.json");
+const ACTION_DATA= loadSchema("script-action-data.schema.json");
 const SCRIPT     = loadSchema("script.schema.json");
 const STATUS     = loadSchema("script-status.schema.json");
 const EVENT      = loadSchema("event-status.schema.json");
 const LOG        = loadSchema("script-action-log.schema.json");
 const ARTIFACTS  = loadSchema("script-action-artifacts.schema.json");
 
-ajv.addSchema(COMMON,    "common.schema.json");
-ajv.addSchema(ACTION,    "script-action.schema.json");
+ajv.addSchema(COMMON,     "common.schema.json");
+ajv.addSchema(ACTION,     "script-action.schema.json");
+ajv.addSchema(ACTION_DATA,"script-action-data.schema.json");
 ajv.addSchema(SCRIPT,    "script.schema.json");
 ajv.addSchema(STATUS,    "script-status.schema.json");
 ajv.addSchema(EVENT,     "event-status.schema.json");

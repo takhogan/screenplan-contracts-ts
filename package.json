@@ -10,9 +10,13 @@
     "src"
   ],
   "scripts": {
+    "clean": "rm -rf dist src/_generated",
+    "codegen": "node scripts/codegen.mjs",
+    "prebuild": "npm run codegen",
     "build": "tsc -p tsconfig.json",
     "validate": "node ./test/validate-examples.mjs",
-    "test": "npm run build && npm run validate"
+    "test": "npm run build && npm run validate",
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "@screenplan/contracts-schemas": "github:takhogan/screenplan-contracts",
@@ -20,6 +24,7 @@
     "ajv-formats": "^2.1.1"
   },
   "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4",
     "typescript": "^5.4.0"
   }
 }

@@ -37,6 +37,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateArtifactsSpec = exports.validateScriptActionLog = exports.validateEventStatus = exports.validateScriptStatus = exports.validateScriptAction = exports.validateScript = exports.ContractValidationError = void 0;
+exports.getSchema = getSchema;
+exports.listSchemas = listSchemas;
 exports.getArtifactsSpec = getArtifactsSpec;
 const _2020_1 = __importDefault(require("ajv/dist/2020"));
 const ajv_formats_1 = __importDefault(require("ajv-formats"));
@@ -46,11 +48,23 @@ const SCHEMA_DIR = path.resolve(path.dirname(require.resolve("@screenplan/contra
 function loadSchema(file) {
     return JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, file), "utf8"));
 }
+/** Return the raw JSON schema for the given filename (e.g. "script.schema.json"). */
+function getSchema(name) {
+    return loadSchema(name);
+}
+/** List every `*.schema.json` filename shipped by @screenplan/contracts-schemas. */
+function listSchemas() {
+    return fs
+        .readdirSync(SCHEMA_DIR)
+        .filter((f) => f.endsWith(".schema.json"))
+        .sort();
+}
 const ajv = new _2020_1.default({ allErrors: true, strict: false });
 (0, ajv_formats_1.default)(ajv);
 // Register all schemas so $ref between files resolves.
 const COMMON = loadSchema("common.schema.json");
 const ACTION = loadSchema("script-action.schema.json");
+const ACTION_DATA = loadSchema("script-action-data.schema.json");
 const SCRIPT = loadSchema("script.schema.json");
 const STATUS = loadSchema("script-status.schema.json");
 const EVENT = loadSchema("event-status.schema.json");
@@ -58,6 +72,7 @@ const LOG = loadSchema("script-action-log.schema.json");
 const ARTIFACTS = loadSchema("script-action-artifacts.schema.json");
 ajv.addSchema(COMMON, "common.schema.json");
 ajv.addSchema(ACTION, "script-action.schema.json");
+ajv.addSchema(ACTION_DATA, "script-action-data.schema.json");
 ajv.addSchema(SCRIPT, "script.schema.json");
 ajv.addSchema(STATUS, "script-status.schema.json");
 ajv.addSchema(EVENT, "event-status.schema.json");

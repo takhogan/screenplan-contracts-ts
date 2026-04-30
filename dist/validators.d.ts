@@ -1,4 +1,8 @@
 import type { Script, ScriptAction, ScriptStatus, EventStatus, ScriptActionLog, ScriptActionArtifactsSpec } from "./types";
+/** Return the raw JSON schema for the given filename (e.g. "script.schema.json"). */
+export declare function getSchema(name: string): Record<string, unknown>;
+/** List every `*.schema.json` filename shipped by @screenplan/contracts-schemas. */
+export declare function listSchemas(): string[];
 export declare class ContractValidationError extends Error {
     readonly contract: string;
     readonly errors: unknown;
