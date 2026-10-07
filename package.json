@@ -19,7 +19,7 @@
     "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
-    "@screenplan/contracts-schemas": "github:takhogan/screenplan-contracts",
+    "@screenplan/contracts-schemas": "git+https://github.com/takhogan/screenplan-contracts.git",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1"
   },

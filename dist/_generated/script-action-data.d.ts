@@ -17,7 +17,7 @@ export type Rect2D = [Point2D, Point2D];
  */
 export type RGB = [number, number, number];
 /**
- * On-disk persisted image reference: relative path (string), embedded data, or null. Authoring-time Blob/ImageData is unloaded to a path before serialisation.
+ * On-disk persisted image reference. At interfaceVersion >= 21 this is null on the action's actionData; the file lives under `assets/` and is registered in the action's `actionAssets[]`. At older versions it is a relative path string pointing into `actions/N-row/M-{actionName}/assets/...`. Authoring-time Blob/ImageData is unloaded to either form before serialisation.
  */
 export type ImageRef = string | null;
 export type CanvasShape = {
@@ -139,10 +139,10 @@ export type MouseInteractionActionData = RandomVariableTypeData & {
     [k: string]: unknown;
 };
 /**
- * Per-subtype `actionData` payload schemas for every ScriptAction subtype. Mirrors the TypeScript ActionData union in script-studio's editor/interfaces/script-action-types.ts. On-disk representations differ from authoring-time types in two ways: (1) Blob/SafeUrl/ImageData fields are persisted as relative file-path strings (or null) — see ScriptImportExportUtils in script-studio; (2) historic scripts may carry legacy fields no longer authored, so each subtype keeps additionalProperties:true and a small `required` list.
+ * Per-subtype `actionData` payload schemas for every ScriptAction subtype. Mirrors the TypeScript ActionData union in script-studio's editor/interfaces/script-action-types.ts. On-disk representations differ from authoring-time types: (1) at interfaceVersion >= 21 (flat-assets format), Blob/SafeUrl/ImageData fields and JSON-asset fields (e.g. sourcePointList) are persisted as null on the action — the file lives under `assets/` and is registered in the per-action `actionAssets` array; (2) at older interfaceVersion, those fields hold relative file-path strings pointing into the legacy `actions/N-row/M-action/assets/...` tree; (3) historic scripts may carry legacy fields no longer authored, so each subtype keeps additionalProperties:true and a small `required` list.
  */
 /**
- * Per-subtype `actionData` payload schemas for every ScriptAction subtype. Mirrors the TypeScript ActionData union in script-studio's editor/interfaces/script-action-types.ts. On-disk representations differ from authoring-time types in two ways: (1) Blob/SafeUrl/ImageData fields are persisted as relative file-path strings (or null) — see ScriptImportExportUtils in script-studio; (2) historic scripts may carry legacy fields no longer authored, so each subtype keeps additionalProperties:true and a small `required` list.
+ * Per-subtype `actionData` payload schemas for every ScriptAction subtype. Mirrors the TypeScript ActionData union in script-studio's editor/interfaces/script-action-types.ts. On-disk representations differ from authoring-time types: (1) at interfaceVersion >= 21 (flat-assets format), Blob/SafeUrl/ImageData fields and JSON-asset fields (e.g. sourcePointList) are persisted as null on the action — the file lives under `assets/` and is registered in the per-action `actionAssets` array; (2) at older interfaceVersion, those fields hold relative file-path strings pointing into the legacy `actions/N-row/M-action/assets/...` tree; (3) historic scripts may carry legacy fields no longer authored, so each subtype keeps additionalProperties:true and a small `required` list.
  */
 export interface ScriptActionData {
     [k: string]: unknown;
@@ -299,6 +299,10 @@ export interface ScriptReferenceData {
     postActionDelay?: string | number;
     [k: string]: unknown;
 }
+/**
+ * @deprecated
+ * DEPRECATED: searchPattern* actions are deprecated. Schema retained for loading legacy scripts; do not author new uses.
+ */
 export interface SearchPatternStartActionData {
     /**
      * Target execution system for a Script/ScriptAction.
@@ -312,6 +316,10 @@ export interface SearchPatternStartActionData {
     gridMode?: "training" | "active" | "inactive";
     [k: string]: unknown;
 }
+/**
+ * @deprecated
+ * DEPRECATED: searchPattern* actions are deprecated. Schema retained for loading legacy scripts; do not author new uses.
+ */
 export interface SearchPatternContinueActionData {
     /**
      * Target execution system for a Script/ScriptAction.
@@ -322,6 +330,10 @@ export interface SearchPatternContinueActionData {
     recordSearchAreaMap?: boolean;
     [k: string]: unknown;
 }
+/**
+ * @deprecated
+ * DEPRECATED: searchPattern* actions are deprecated. Schema retained for loading legacy scripts; do not author new uses.
+ */
 export interface SearchPatternEndActionData {
     /**
      * Target execution system for a Script/ScriptAction.
@@ -427,6 +439,7 @@ export interface CodeBlockActionData {
     targetSystem: "python" | "adb" | "kvm" | "none";
     codeBlock?: string;
     interpreter?: "python";
+    async?: boolean;
     expandedVisualization?: boolean;
     expandedWidthCols?: number;
     expandedHeightRows?: number;

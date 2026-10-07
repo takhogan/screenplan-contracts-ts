@@ -3,9 +3,9 @@
  */
 export type SystemName = "python" | "adb" | "kvm" | "none";
 /**
- * Status reported by ScriptEngine for a running or finished action/script.
+ * Status reported by ScriptEngine for a running or finished action/script. The first four are ScriptExecutionState values. The last three come from ScriptExecutionStatusDetail: script_executor.py calls script_logger.get_action_log().set_status(status_detail), which writes the detail into this same field, so a terminated run's node reports why it stopped rather than a bare FAILURE. Readers should treat every value except RUNNING and SUCCESS as a failure-like terminal state.
  */
-export type RunStatus = "RUNNING" | "SUCCESS" | "FAILURE" | "ERROR";
+export type RunStatus = "RUNNING" | "SUCCESS" | "FAILURE" | "ERROR" | "TIMED_OUT" | "MAX_ATTEMPTS" | "CANCELLED";
 /**
  * Status used in Script-Engine-Controller queue files (running_scripts/completed_scripts).
  */

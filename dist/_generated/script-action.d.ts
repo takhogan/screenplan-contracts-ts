@@ -5,7 +5,7 @@ export type ScriptAction = {
     [k: string]: unknown;
 } & {
     /**
-     * Discriminator for the ScriptAction subtype.
+     * Discriminator for the ScriptAction subtype. Note: searchPatternStartAction / searchPatternContinueAction / searchPatternEndAction are deprecated — retained for loading legacy scripts; do not author new uses.
      */
     actionName: "jointAction" | "clickAction" | "mouseScrollAction" | "declareScene" | "conditionalStatement" | "shellScript" | "logAction" | "sleepStatement" | "variableAssignment" | "timeAction" | "randomVariable" | "scriptReference" | "dragLocationSource" | "dragLocationTarget" | "detectObject" | "keyboardAction" | "searchPatternStartAction" | "searchPatternContinueAction" | "searchPatternEndAction" | "randomizerAction" | "jsonFileAction" | "exceptionAction" | "navigateAction" | "ImageToTextAction" | "imageToTextAction" | "scale" | "sendMessageAction" | "codeBlock" | "forLoopAction" | "configurationAction" | "ADBConfigurationAction" | "colorCompareAction" | "returnStatement" | "imageTransformationAction" | "countToThresholdAction" | "fileIOAction" | "maskMergeAction" | "mouseMoveAction" | "mouseInteractionAction" | "userPromptAction" | "calendarAction" | "userSecretManagementAction" | "interactApplicationAction";
     /**
@@ -48,6 +48,10 @@ export type ScriptAction = {
     linkingBehaviors: {
         [k: string]: unknown;
     }[];
+    /**
+     * Per-action registry of files persisted under `assets/` (flat layout, since interfaceVersion 21). Each entry locates a file and the dot-path on the action where the loaded value should be placed at deserialise time.
+     */
+    actionAssets?: ScriptActionAsset[];
     selected?: boolean;
     draggable?: boolean;
     highlight?: string;
@@ -57,3 +61,25 @@ export type ScriptAction = {
 /**
  * A single ScriptAction node as authored in script-studio and consumed by ScriptEngine. The shape of `actionData` is discriminated on `actionName`; per-subtype payloads are defined in script-action-data.schema.json.
  */
+/**
+ * One persisted asset belonging to a ScriptAction. The flat `assets/` folder layout uses `filePath` to locate the file. `attributePath` is the dot-path within the action where the loaded value should be placed (numeric segments traverse arrays). `md5` is the hash of the file's bytes; populated when the asset is first registered (e.g. via `ScriptFlatAssetsUtils.addActionAsset`).
+ */
+export interface ScriptActionAsset {
+    /**
+     * Path relative to the script root, e.g. `assets/{md5}-{actionName}-{actionGroup}-{specificFileName}.{ext}`.
+     */
+    filePath: string;
+    /**
+     * Dot-path within the ScriptAction where the loaded value lives (e.g. `actionData.srcImg`, `actionData.positiveExamples.0.floatingObject.img`, `actionIcon.icon`, `actionIcon.grid.0.0.icon`).
+     */
+    attributePath: string;
+    /**
+     * Selects the loader: `image` => binary decoded with the platform's image library; `json`/`pointList` => `JSON.parse`; `text` => raw UTF-8.
+     */
+    assetType: "image" | "json" | "pointList" | "text";
+    /**
+     * Hex MD5 of the file's bytes.
+     */
+    md5: string;
+    [k: string]: unknown;
+}
