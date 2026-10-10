@@ -45,6 +45,10 @@ export interface ScriptStatus {
    */
   args?: unknown[];
   parallel?: boolean;
+  /**
+   * Set by ScriptScheduler restartDeviceOnCrash(): the controller runs the engine with --restart-device-on-crash, restarting the device when reconnecting to it fails.
+   */
+  restart_device_on_crash?: boolean;
   script_log_folder?: string | null;
   /**
    * UI-only field added by script-studio. Should not be relied on server-side.
