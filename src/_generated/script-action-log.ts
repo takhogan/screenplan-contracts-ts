@@ -49,9 +49,9 @@ export interface ScriptActionLog {
   pre_file:
     | {
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
       }
     | {};
@@ -61,18 +61,18 @@ export interface ScriptActionLog {
   post_file:
     | {
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
       }
     | {};
   supporting_files: (
     | {
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
       }
     | {}

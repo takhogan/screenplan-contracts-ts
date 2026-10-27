@@ -13,9 +13,9 @@ export type RunStatus = "RUNNING" | "SUCCESS" | "FAILURE" | "ERROR" | "TIMED_OUT
  */
 export type QueueStatus = string;
 /**
- * Type of a ScriptActionLog artifact file.
+ * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
  */
-export type FileType = "text" | "image" | "video" | "directory";
+export type FileType = "text" | "image" | "video" | "directory" | "overlay";
 export type ScriptModePropEnum = "train" | "test" | "prod";
 export type EditorStatusEnum = "dirty" | "clean" | "error";
 /**
