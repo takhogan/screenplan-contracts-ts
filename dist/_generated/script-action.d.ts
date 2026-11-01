@@ -30,8 +30,8 @@ export type ScriptAction = {
     actionRowActionIndex: number;
     visualizerRowIndex: number;
     visualizerActionIndex: number;
-    visualizerX: number;
-    visualizerY: number;
+    visualizerX?: number;
+    visualizerY?: number;
     /**
      * ActionLink array; concrete shape varies by branchingBehavior.
      */
@@ -39,13 +39,13 @@ export type ScriptAction = {
         [k: string]: unknown;
     }[];
     parentGroups: number[];
-    displayables: {
+    displayables?: {
         [k: string]: unknown;
     }[];
-    configurables: {
+    configurables?: {
         [k: string]: unknown;
     }[];
-    linkingBehaviors: {
+    linkingBehaviors?: {
         [k: string]: unknown;
     }[];
     /**

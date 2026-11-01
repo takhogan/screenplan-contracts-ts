@@ -75,8 +75,8 @@ export type ScriptAction = {
   actionRowActionIndex: number;
   visualizerRowIndex: number;
   visualizerActionIndex: number;
-  visualizerX: number;
-  visualizerY: number;
+  visualizerX?: number;
+  visualizerY?: number;
   /**
    * ActionLink array; concrete shape varies by branchingBehavior.
    */
@@ -84,13 +84,13 @@ export type ScriptAction = {
     [k: string]: unknown;
   }[];
   parentGroups: number[];
-  displayables: {
+  displayables?: {
     [k: string]: unknown;
   }[];
-  configurables: {
+  configurables?: {
     [k: string]: unknown;
   }[];
-  linkingBehaviors: {
+  linkingBehaviors?: {
     [k: string]: unknown;
   }[];
   /**
@@ -134,7 +134,7 @@ export interface ScriptActionRow {
   actions: ScriptAction[];
   actionRowIndex: number;
   rowID: number;
-  selected: boolean;
+  selected?: boolean;
 }
 /**
  * One persisted asset belonging to a ScriptAction. The flat `assets/` folder layout uses `filePath` to locate the file. `attributePath` is the dot-path within the action where the loaded value should be placed (numeric segments traverse arrays). `md5` is the hash of the file's bytes; populated when the asset is first registered (e.g. via `ScriptFlatAssetsUtils.addActionAsset`).
@@ -160,9 +160,9 @@ export interface ScriptActionAsset {
 }
 export interface ScriptProps {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   width: number;
   height: number;
   scriptMode: "train" | "test" | "prod";
@@ -171,5 +171,13 @@ export interface ScriptProps {
    * Embedded scriptReference props for nested scripts. TODO: tighten once ScriptReference shape is stable.
    */
   scriptReference?: {} | null;
+  /**
+   * Interface version 22+: the next actionGroup to allocate. Never goes down, so a deleted action's id is never reused (VERSIONING.md §4.7). Absent before v22.
+   */
+  actionGroupCounter?: number;
+  /**
+   * Interface version 22+: the next rowID to allocate. Never goes down (VERSIONING.md §4.7). Absent before v22.
+   */
+  rowIDCounter?: number;
   [k: string]: unknown;
 }

@@ -44,9 +44,9 @@ export type CanvasShapeRows = CanvasShape[][];
 export type ClickActionData = DetectTypeData &
   RandomVariableTypeData & {
     /**
-     * Target execution system for a Script/ScriptAction.
+     * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
      */
-    targetSystem: "python" | "adb" | "kvm" | "none";
+    targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
     targetContext?: TargetContext;
     pointList?: Point2D[];
     icon?: ImageRef;
@@ -58,9 +58,9 @@ export type ClickActionData = DetectTypeData &
   };
 export type MouseScrollActionData = DetectTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   targetContext?: TargetContext;
   pointList?: Point2D[];
   icon?: ImageRef;
@@ -70,9 +70,9 @@ export type MouseScrollActionData = DetectTypeData & {
 };
 export type DeclareSceneData = DetectTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   targetContext?: TargetContext;
   location?: Point2D;
   searchArea?: Rect2D;
@@ -87,16 +87,16 @@ export type DeclareSceneData = DetectTypeData & {
 };
 export type RandomVariableData = RandomVariableTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   [k: string]: unknown;
 };
 export type DragLocationData = DetectTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   targetContext?: TargetContext;
   pointList?: Point2D[];
   icon?: ImageRef;
@@ -107,9 +107,9 @@ export type DragLocationData = DetectTypeData & {
 };
 export type DetectObjectData = DetectTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   targetContext?: TargetContext;
   searchArea?: Rect2D;
   maxMatches?: number | string;
@@ -119,9 +119,9 @@ export type DetectObjectData = DetectTypeData & {
 };
 export type KeyboardActionData = RandomVariableTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   keyboardExpression?: string;
   keyboardActionType?: "keyPress" | "keyDown" | "keyUp" | "hotkey";
   postActionDelay?: string | number;
@@ -129,9 +129,9 @@ export type KeyboardActionData = RandomVariableTypeData & {
 };
 export type MouseInteractionActionData = RandomVariableTypeData & {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   sourceDetectTypeData?: DetectTypeData;
   sourcePointList?: Point2D[] | string;
   clickCount?: number | string;
@@ -226,9 +226,9 @@ export interface DetectTypeData {
 }
 export interface ConditionalStatementData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   condition: string;
   conditionLanguage?: ProgrammingLanguage;
   [k: string]: unknown;
@@ -238,9 +238,9 @@ export interface JointActionData {
 }
 export interface ShellScriptActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   cwd?: string;
   shellScript: string;
   awaitScript?: boolean;
@@ -251,9 +251,9 @@ export interface ShellScriptActionData {
 }
 export interface LogActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   logType?: "logVariable" | "logImage";
   logValue?: string;
   logFile?: string;
@@ -261,17 +261,17 @@ export interface LogActionData {
 }
 export interface SleepStatementData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   inputExpression?: string | number;
   [k: string]: unknown;
 }
 export interface VariableAssignmentData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   outputVarName?: string;
   inputExpression?: string;
   expressionLanguage?: ProgrammingLanguage;
@@ -281,9 +281,9 @@ export interface VariableAssignmentData {
 }
 export interface TimeActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   timeActionType?: "getCurrentDateTime";
   timezone?: "local" | "utc";
   outputVarName?: string;
@@ -291,9 +291,9 @@ export interface TimeActionData {
 }
 export interface ScriptReferenceData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   scriptName: string;
   scriptAttributes?: ("searchAreaErrorHandler" | "searchAreaObjectHandler" | "searchAreaExcluded")[];
   branchingBehavior?: "firstMatch" | "attemptAllBranches";
@@ -311,9 +311,9 @@ export interface ScriptReferenceData {
  */
 export interface SearchPatternStartActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   searchPatternID: string;
   searchPatterns?: string[];
   searchPatternProbabilities?: number[];
@@ -328,9 +328,9 @@ export interface SearchPatternStartActionData {
  */
 export interface SearchPatternContinueActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   searchPatternID: string;
   gridMode?: "training" | "active" | "inactive";
   recordSearchAreaMap?: boolean;
@@ -342,9 +342,9 @@ export interface SearchPatternContinueActionData {
  */
 export interface SearchPatternEndActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   searchPatternID: string;
   gridMode?: "training" | "active" | "inactive";
   generateSearchAreaMap?: boolean;
@@ -352,18 +352,18 @@ export interface SearchPatternEndActionData {
 }
 export interface RandomizerActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   randomizerBehavior?: "randomizer" | "randomQueue";
   preferences?: string;
   [k: string]: unknown;
 }
 export interface JSONFileActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   mode?: "read" | "write";
   fileName?: string;
   varName?: string;
@@ -372,9 +372,9 @@ export interface JSONFileActionData {
 }
 export interface ExceptionActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   exceptionMessage?: string;
   takeScreenshot?: boolean;
   exceptionID?: string;
@@ -383,18 +383,18 @@ export interface ExceptionActionData {
 }
 export interface NavigateActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   inputExpression?: string;
   maxNavigateAttempts?: number | string;
   [k: string]: unknown;
 }
 export interface ImageToTextActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   targetContext?: TargetContext;
   inputExpression?: string;
   outputVarName?: string;
@@ -428,9 +428,9 @@ export interface ScaleData {
 }
 export interface SendMessageActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem?: "python" | "adb" | "kvm" | "none";
+  targetSystem?: "python" | "adb" | "kvm" | "ios" | "none";
   subject?: string;
   messagingProvider?: "viber" | "email";
   inputExpression?: string;
@@ -440,9 +440,9 @@ export interface SendMessageActionData {
 }
 export interface CodeBlockActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   codeBlock?: string;
   interpreter?: "python";
   async?: boolean;
@@ -453,9 +453,9 @@ export interface CodeBlockActionData {
 }
 export interface ForLoopActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   forVariables?: string;
   inVariables?: string;
   operatorType?: "startLoop" | "endLoop";
@@ -479,9 +479,9 @@ export interface ADBConfigurationData {
 }
 export interface ColorCompareActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem?: "python" | "adb" | "kvm" | "none";
+  targetSystem?: "python" | "adb" | "kvm" | "ios" | "none";
   icon?: ImageRef;
   inputExpression?: string;
   outputVarName?: string;
@@ -494,18 +494,18 @@ export interface ColorCompareActionData {
 }
 export interface ReturnStatementActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem?: "python" | "adb" | "kvm" | "none";
+  targetSystem?: "python" | "adb" | "kvm" | "ios" | "none";
   returnStatementType?: "exitIteration" | "exitScript" | "exitProgram";
   returnStatus?: "success" | "failure";
   [k: string]: unknown;
 }
 export interface ImageTransformationActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   transformationType?: "blur" | "binarize" | "antialias" | "resize" | "erode" | "dilate" | "convertColor";
   inputExpression?: string;
   outputVarName?: string;
@@ -523,9 +523,9 @@ export interface ImageTransformationActionData {
 }
 export interface CountToThresholdActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   counterVarName?: string;
   counterThreshold?: string | number;
   incrementBy?: string | number;
@@ -537,9 +537,9 @@ export interface CountToThresholdActionData {
 }
 export interface FileIOActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   fileActionType?: "w" | "r" | "wb" | "rb" | "a";
   fileType?: "image" | "text" | "json";
   inputExpression?: string;
@@ -550,9 +550,9 @@ export interface FileIOActionData {
 }
 export interface MaskMergeActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   leftInputExpression?: string;
   rightInputExpression?: string;
   joinLeftAt?: "angle" | "topLeft" | "top" | "topRight" | "right" | "bottomRight" | "bottom" | "bottomLeft" | "left";
@@ -571,9 +571,9 @@ export interface MaskMergeActionData {
 }
 export interface MouseMoveActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem?: "python" | "adb" | "kvm" | "none";
+  targetSystem?: "python" | "adb" | "kvm" | "ios" | "none";
   dragMouse?: boolean;
   releaseMouseOnCompletion?: boolean;
   sourceDetectTypeData?: DetectTypeData;
@@ -585,23 +585,22 @@ export interface MouseMoveActionData {
 }
 export interface UserPromptActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem?: "python" | "adb" | "kvm" | "none";
+  targetSystem?: "python" | "adb" | "kvm" | "ios" | "none";
+  promptMethod?: "web";
   promptMessage?: string;
   promptType?: "text" | "yesno" | "okcancel";
   defaultValue?: string;
+  timeoutSeconds?: string;
   outputVarName?: string;
-  messagingProvider?: "viber" | "web";
-  messagingChannelName?: string;
-  inputExpression?: string;
   [k: string]: unknown;
 }
 export interface CalendarActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   calendarActionType?: "create" | "update" | "delete" | "list";
   calendarId?: string;
   eventTitle?: string;
@@ -615,9 +614,9 @@ export interface CalendarActionData {
 }
 export interface UserSecretManagementActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   inputExpression?: string;
   outputVarName?: string;
   secretName?: string;
@@ -626,9 +625,9 @@ export interface UserSecretManagementActionData {
 }
 export interface InteractApplicationActionData {
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  targetSystem: "python" | "adb" | "kvm" | "none";
+  targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
   actionType?: "start" | "stop" | "list";
   actionPayload?: string;
   applicationName?: string;

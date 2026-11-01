@@ -16,9 +16,9 @@ export interface ScriptActionLog {
      */
     name: string;
     /**
-     * Target execution system for a Script/ScriptAction.
+     * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
      */
-    target_system: "python" | "adb" | "kvm" | "none";
+    target_system: "python" | "adb" | "kvm" | "ios" | "none";
     script_name?: string | null;
     script_log_folder?: string | null;
     script_counter: number;
@@ -46,9 +46,9 @@ export interface ScriptActionLog {
      */
     pre_file: {
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
     } | {};
     /**
@@ -56,16 +56,16 @@ export interface ScriptActionLog {
      */
     post_file: {
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
     } | {};
     supporting_files: ({
         /**
-         * Type of a ScriptActionLog artifact file.
+         * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
          */
-        file_type: "text" | "image" | "video" | "directory";
+        file_type: "text" | "image" | "video" | "directory" | "overlay";
         file_path: string;
     } | {})[];
     children: ChildStub[];

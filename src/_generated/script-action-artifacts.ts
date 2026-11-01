@@ -31,9 +31,9 @@ export interface ActionArtifactSpec {
 }
 export interface FileSlot {
   /**
-   * Type of a ScriptActionLog artifact file.
+   * Type of a ScriptActionLog artifact file. overlay is a *.overlay.html log overlay: drawing instructions over a stored screenshot that render to the annotated image (see ScriptEngine common/logging/log_overlay.py).
    */
-  file_type: "text" | "image" | "video" | "directory";
+  file_type: "text" | "image" | "video" | "directory" | "overlay";
   /**
    * always = engine MUST emit; optional = MAY emit; never = engine MUST NOT emit (slot is empty {}).
    */

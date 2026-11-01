@@ -18,9 +18,9 @@ export interface ScriptActionLog {
    */
   name: string;
   /**
-   * Target execution system for a Script/ScriptAction.
+   * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
    */
-  target_system: "python" | "adb" | "kvm" | "none";
+  target_system: "python" | "adb" | "kvm" | "ios" | "none";
   script_name?: string | null;
   script_log_folder?: string | null;
   script_counter: number;
