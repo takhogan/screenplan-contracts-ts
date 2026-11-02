@@ -27,9 +27,9 @@ export interface ScriptActionLog {
   log_object_type: "action" | "script";
   tree_entity_type: "node" | "child";
   /**
-   * Status reported by ScriptEngine for a running or finished action/script. The first four are ScriptExecutionState values. The last three come from ScriptExecutionStatusDetail: script_executor.py calls script_logger.get_action_log().set_status(status_detail), which writes the detail into this same field, so a terminated run's node reports why it stopped rather than a bare FAILURE. Readers should treat every value except RUNNING and SUCCESS as a failure-like terminal state.
+   * Status reported by ScriptEngine for a running or finished action/script. The first four are ScriptExecutionState values. TIMED_OUT, MAX_ATTEMPTS and CANCELLED come from ScriptExecutionStatusDetail: script_executor.py calls script_logger.get_action_log().set_status(status_detail), which writes the detail into this same field, so a terminated run's node reports why it stopped rather than a bare FAILURE. NEEDS_APPROVAL: the run stopped before reading a secret the caller had not approved (--approved-secrets); needs_approval.json in the run folder names the secret and the step. Readers should treat every value except RUNNING and SUCCESS as a failure-like terminal state.
    */
-  status: "RUNNING" | "SUCCESS" | "FAILURE" | "ERROR" | "TIMED_OUT" | "MAX_ATTEMPTS" | "CANCELLED";
+  status: "RUNNING" | "SUCCESS" | "FAILURE" | "ERROR" | "TIMED_OUT" | "MAX_ATTEMPTS" | "CANCELLED" | "NEEDS_APPROVAL";
   summary?: string;
   /**
    * UTC `YYYY-MM-DD HH:MM:SS.ffffff`.

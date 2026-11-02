@@ -58,6 +58,22 @@ try {
   console.log("  OK    negative ScriptStatus rejected");
 }
 
+// A run stopped at an unapproved secret ends its action log with NEEDS_APPROVAL.
+const actionLog = JSON.parse(fs.readFileSync(path.join(examplesDir, "script-action-log.example.json"), "utf8"));
+try {
+  validateScriptActionLog.assert({ ...actionLog, status: "NEEDS_APPROVAL" });
+  console.log("  OK    action log with status NEEDS_APPROVAL accepted");
+} catch (err) {
+  failed += 1;
+  console.error(`  FAIL  action log with status NEEDS_APPROVAL rejected: ${err.message}`);
+}
+if (validateScriptActionLog.is({ ...actionLog, status: "NEEDS_SOMETHING" })) {
+  failed += 1;
+  console.error("  FAIL  action log with an unknown status accepted");
+} else {
+  console.log("  OK    action log with an unknown status rejected");
+}
+
 // props.agentTool: the smallest manifest passes; each broken one fails.
 const props = JSON.parse(fs.readFileSync(path.join(examplesDir, "script-props.example.json"), "utf8"));
 const minimal = { description: "Reads the clock.", effects: "reads-device" };
