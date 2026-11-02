@@ -168,6 +168,14 @@ export interface ScriptProps {
   scriptMode: "train" | "test" | "prod";
   deploymentToLibrary: boolean;
   /**
+   * One to three lines: what the script does and when to run it. Shown to agents in list_scripts, so they can pick a script without reading it.
+   */
+  shortDescription?: string;
+  /**
+   * The longer account an agent reads before running the script: the state it expects to start from, the steps it takes from there, and the state it leaves the device in.
+   */
+  description?: string;
+  /**
    * Embedded scriptReference props for nested scripts. TODO: tighten once ScriptReference shape is stable.
    */
   scriptReference?: {} | null;
