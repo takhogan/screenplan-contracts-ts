@@ -14,7 +14,7 @@ export * from "./_generated/script-action-log";
 export * from "./_generated/script-status";
 // `script.ts` also re-emits `ScriptAction` because the Script schema $refs it;
 // re-export only the script-specific names to avoid a duplicate identifier.
-export type { Script, ScriptActionRow, ScriptProps } from "./_generated/script";
+export type { Script, ScriptActionRow, ScriptProps, AgentToolManifest, AgentToolValueSchema } from "./_generated/script";
 
 // ---- name aliases so the public surface stays stable ----
 // Generator names follow $defs keys; aliases give consumers domain-meaningful

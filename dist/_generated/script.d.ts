@@ -141,5 +141,53 @@ export interface ScriptProps {
      * Interface version 22+: the next rowID to allocate. Never goes down (VERSIONING.md §4.7). Absent before v22.
      */
     rowIDCounter?: number;
+    agentTool?: AgentToolManifest;
+    [k: string]: unknown;
+}
+/**
+ * props.agentTool, present when the script is served to agents as a typed tool: how an agent calls it as an MCP tool. Its name, what it does, its typed inputs and outputs, and what it does to the device. Secrets and user prompts are not declared here: the server derives them from the script's call tree. Versioned with the script, so approving a version approves its manifest too, and the semantic merge treats it as one value.
+ */
+export interface AgentToolManifest {
+    /**
+     * The MCP tool name within its toolkit. Absent, the server derives snake_case from the script name minus its {Area}_ prefix (VDI_OpenApp becomes open_app).
+     */
+    name?: string;
+    /**
+     * What the tool does, written for the agent that chooses it: the tool description it is served with.
+     */
+    description: string;
+    /**
+     * The tool's parameters: one JSON Schema per entry of the script's inputs.json, keyed by the same name. A name the script lacks, or a missing required input, fails validation when the script is merged.
+     */
+    inputs?: {
+        [k: string]: AgentToolValueSchema;
+    };
+    /**
+     * What a call returns: one JSON Schema per entry of the script's outputs.json, keyed by the same name.
+     */
+    outputs?: {
+        [k: string]: AgentToolValueSchema;
+    };
+    /**
+     * reads-device: it only looks (screens, OCR) and types nothing into an app. changes-device: anything else. Clients that tell read-only tools apart get it as the MCP readOnlyHint annotation.
+     */
+    effects: "reads-device" | "changes-device";
+    /**
+     * Calling the tool twice with the same inputs is safe. Served as the MCP idempotentHint annotation.
+     */
+    repeatable?: boolean;
+    /**
+     * Informational: the name of the script the tool calls first, such as the one that makes sure a session is open. The toolkit guide can mention it; the tool calls it itself either way.
+     */
+    precondition?: string;
+    /**
+     * How long a call waits for the script's run to finish.
+     */
+    timeoutSeconds?: number;
+}
+/**
+ * A JSON Schema for one input or output value, such as { "type": "string", "description": "…" }. Any JSON Schema keyword is allowed.
+ */
+export interface AgentToolValueSchema {
     [k: string]: unknown;
 }

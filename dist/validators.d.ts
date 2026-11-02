@@ -1,4 +1,4 @@
-import type { Script, ScriptAction, ScriptStatus, EventStatus, ScriptActionLog, ScriptActionArtifactsSpec } from "./types";
+import type { Script, ScriptProps, AgentToolManifest, ScriptAction, ScriptStatus, EventStatus, ScriptActionLog, ScriptActionArtifactsSpec } from "./types";
 /** Return the raw JSON schema for the given filename (e.g. "script.schema.json"). */
 export declare function getSchema(name: string): Record<string, unknown>;
 /** List every `*.schema.json` filename shipped by @screenplan/contracts-schemas. */
@@ -11,6 +11,16 @@ export declare class ContractValidationError extends Error {
 export declare const validateScript: {
     is: (data: unknown) => data is Script;
     assert: (data: unknown) => Script;
+};
+/** A script's props.json. */
+export declare const validateScriptProps: {
+    is: (data: unknown) => data is ScriptProps;
+    assert: (data: unknown) => ScriptProps;
+};
+/** props.agentTool alone: the shape only. Its inputs and outputs naming the script's own is checked where the script is merged. */
+export declare const validateAgentToolManifest: {
+    is: (data: unknown) => data is AgentToolManifest;
+    assert: (data: unknown) => AgentToolManifest;
 };
 export declare const validateScriptAction: {
     is: (data: unknown) => data is ScriptAction;

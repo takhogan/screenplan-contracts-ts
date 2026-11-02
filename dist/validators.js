@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateArtifactsSpec = exports.validateScriptActionLog = exports.validateEventStatus = exports.validateScriptStatus = exports.validateScriptAction = exports.validateScript = exports.ContractValidationError = void 0;
+exports.validateArtifactsSpec = exports.validateScriptActionLog = exports.validateEventStatus = exports.validateScriptStatus = exports.validateScriptAction = exports.validateAgentToolManifest = exports.validateScriptProps = exports.validateScript = exports.ContractValidationError = void 0;
 exports.getSchema = getSchema;
 exports.listSchemas = listSchemas;
 exports.getArtifactsSpec = getArtifactsSpec;
@@ -82,7 +82,30 @@ function compile(schemaId) {
     return ajv.getSchema(schemaId)
         ?? ajv.compile(loadSchema(schemaId));
 }
+function compileDef(ref) {
+    let fn;
+    return () => {
+        if (!fn) {
+            let got;
+            try {
+                got = ajv.getSchema(ref);
+            }
+            catch {
+                got = undefined;
+            }
+            if (!got)
+                throw new Error(`@screenplan/contracts: the installed @screenplan/contracts-schemas has no ${ref}; update it`);
+            fn = got;
+        }
+        return fn;
+    };
+}
 const vScript = compile("script.schema.json");
+// Compiled on first use, so an installed schemas package older than these
+// $defs fails only the validators that need them, not the import.
+const SCRIPT_ID = SCRIPT.$id;
+const vProps = compileDef(`${SCRIPT_ID}#/$defs/ScriptProps`);
+const vAgentTool = compileDef(`${SCRIPT_ID}#/$defs/AgentToolManifest`);
 const vAction = compile("script-action.schema.json");
 const vStatus = compile("script-status.schema.json");
 const vEvent = compile("event-status.schema.json");
@@ -96,10 +119,12 @@ class ContractValidationError extends Error {
     }
 }
 exports.ContractValidationError = ContractValidationError;
-function makeValidator(name, fn) {
+function makeValidator(name, fnOrGetter) {
+    const get = () => "schema" in fnOrGetter ? fnOrGetter : fnOrGetter();
     return {
-        is: (data) => fn(data),
+        is: (data) => get()(data),
         assert: (data) => {
+            const fn = get();
             if (!fn(data))
                 throw new ContractValidationError(name, fn.errors);
             return data;
@@ -107,6 +132,10 @@ function makeValidator(name, fn) {
     };
 }
 exports.validateScript = makeValidator("Script", vScript);
+/** A script's props.json. */
+exports.validateScriptProps = makeValidator("ScriptProps", vProps);
+/** props.agentTool alone: the shape only. Its inputs and outputs naming the script's own is checked where the script is merged. */
+exports.validateAgentToolManifest = makeValidator("AgentToolManifest", vAgentTool);
 exports.validateScriptAction = makeValidator("ScriptAction", vAction);
 exports.validateScriptStatus = makeValidator("ScriptStatus", vStatus);
 exports.validateEventStatus = makeValidator("EventStatus", vEvent);

@@ -6,6 +6,8 @@ import * as fs from "fs";
 
 import type {
   Script,
+  ScriptProps,
+  AgentToolManifest,
   ScriptAction,
   ScriptStatus,
   EventStatus,
@@ -63,7 +65,25 @@ function compile<T>(schemaId: string): ValidateFunction<T> {
     ?? ajv.compile<T>(loadSchema(schemaId));
 }
 
+function compileDef<T>(ref: string): () => ValidateFunction<T> {
+  let fn: ValidateFunction<T> | undefined;
+  return () => {
+    if (!fn) {
+      let got: ValidateFunction<T> | undefined;
+      try { got = ajv.getSchema<T>(ref); } catch { got = undefined; }
+      if (!got) throw new Error(`@screenplan/contracts: the installed @screenplan/contracts-schemas has no ${ref}; update it`);
+      fn = got;
+    }
+    return fn;
+  };
+}
+
 const vScript      = compile<Script>("script.schema.json");
+// Compiled on first use, so an installed schemas package older than these
+// $defs fails only the validators that need them, not the import.
+const SCRIPT_ID    = SCRIPT.$id as string;
+const vProps       = compileDef<ScriptProps>(`${SCRIPT_ID}#/$defs/ScriptProps`);
+const vAgentTool   = compileDef<AgentToolManifest>(`${SCRIPT_ID}#/$defs/AgentToolManifest`);
 const vAction      = compile<ScriptAction>("script-action.schema.json");
 const vStatus      = compile<ScriptStatus>("script-status.schema.json");
 const vEvent       = compile<EventStatus>("event-status.schema.json");
@@ -76,10 +96,13 @@ export class ContractValidationError extends Error {
   }
 }
 
-function makeValidator<T>(name: string, fn: ValidateFunction<T>) {
+function makeValidator<T>(name: string, fnOrGetter: ValidateFunction<T> | (() => ValidateFunction<T>)) {
+  const get = (): ValidateFunction<T> =>
+    "schema" in fnOrGetter ? fnOrGetter : (fnOrGetter as () => ValidateFunction<T>)();
   return {
-    is: (data: unknown): data is T => fn(data) as boolean,
+    is: (data: unknown): data is T => get()(data) as boolean,
     assert: (data: unknown): T => {
+      const fn = get();
       if (!fn(data)) throw new ContractValidationError(name, fn.errors);
       return data as T;
     },
@@ -87,6 +110,10 @@ function makeValidator<T>(name: string, fn: ValidateFunction<T>) {
 }
 
 export const validateScript           = makeValidator<Script>("Script", vScript);
+/** A script's props.json. */
+export const validateScriptProps      = makeValidator<ScriptProps>("ScriptProps", vProps);
+/** props.agentTool alone: the shape only. Its inputs and outputs naming the script's own is checked where the script is merged. */
+export const validateAgentToolManifest = makeValidator<AgentToolManifest>("AgentToolManifest", vAgentTool);
 export const validateScriptAction     = makeValidator<ScriptAction>("ScriptAction", vAction);
 export const validateScriptStatus     = makeValidator<ScriptStatus>("ScriptStatus", vStatus);
 export const validateEventStatus      = makeValidator<EventStatus>("EventStatus", vEvent);
