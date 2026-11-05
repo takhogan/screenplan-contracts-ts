@@ -6,6 +6,7 @@ export * from "./_generated/script-action";
 export * from "./_generated/script-action-log";
 export * from "./_generated/script-status";
 export type { Script, ScriptActionRow, ScriptProps, AgentToolManifest, AgentToolValueSchema } from "./_generated/script";
+export type { HostNotes, HostNotesDocId, HostNotesAuthor, HostNotesChange, HostNotesPointer } from "./_generated/host-notes";
 export type { ChildStub as ScriptActionLogChildStub } from "./_generated/script-action-log";
 export type { SequenceItem as EventSequenceItem } from "./_generated/event-status";
 export type { FileSlot as ArtifactFileSlot } from "./_generated/script-action-artifacts";
