@@ -72,7 +72,8 @@ export interface CredentialHit {
 /**
  * Text that looks like a credential, by line. Host notes are read by every
  * agent on every machine of the account, so a password, key or token never
- * belongs in them: name the secret in the secret store instead.
+ * belongs in them: the user adds it to their secret store (Manage → User
+ * Secrets in ScreenPlan), and a note names it by its secret name.
  */
 export declare function findCredentialLike(text: unknown): CredentialHit[];
 /** findCredentialLike as problems, for a field named `field`. */

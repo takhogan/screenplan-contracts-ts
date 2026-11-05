@@ -125,6 +125,10 @@ test("read: only a fourth line, or only a long line, is enough to flag it", () =
 });
 
 test("credentials: keys, tokens and password values are found, and never echoed whole", () => {
+  // Every value below is fake: a real prefix (AKIA, ghp_, AIza, ya29., sk-ant-)
+  // followed by the alphabet or counting digits, a key header with no key, the
+  // "hunter2" joke, and base64 of "ChangeMePlease1234567890abcdef". None is,
+  // or ever was, a working credential.
   const samples = {
     "-----BEGIN RSA PRIVATE KEY-----": "a private key",
     "key AKIAABCDEFGHIJKLMNOP here": "an AWS access key",

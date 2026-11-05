@@ -239,7 +239,8 @@ function mask(value) {
 /**
  * Text that looks like a credential, by line. Host notes are read by every
  * agent on every machine of the account, so a password, key or token never
- * belongs in them: name the secret in the secret store instead.
+ * belongs in them: the user adds it to their secret store (Manage → User
+ * Secrets in ScreenPlan), and a note names it by its secret name.
  */
 function findCredentialLike(text) {
     if (typeof text !== "string" || text === "")
@@ -271,7 +272,7 @@ function findCredentialLike(text) {
 function checkNoCredentials(field, text) {
     return findCredentialLike(text).map((hit) => ({
         code: "looks-like-credential",
-        message: `${field} line ${hit.line} looks like ${hit.kind} (starting "${hit.starts}"). Notes are read by every agent on the account: never put a password, key or token in them. Name the secret in the secret store instead.`,
+        message: `${field} line ${hit.line} looks like ${hit.kind} (starting "${hit.starts}"). Notes are read by every agent on the account: never put a password, PIN, key or token in them. Ask the user to add it in ScreenPlan under Manage → User Secrets, and write only its secret name (e.g. "signs in with acgPassword").`,
         line: hit.line,
     }));
 }
