@@ -28,6 +28,12 @@ test("the limits come from the schema's x-limits", () => {
   assert.equal(schema.properties.summary.maxLength, L.summaryMaxLines * L.summaryMaxLineChars + L.summaryMaxLines - 1);
 });
 
+test("the limits are read on first use, so importing the package never needs host-notes.schema.json", () => {
+  const src = fs.readFileSync(path.join(ROOT, "dist", "hostNotes.js"), "utf8");
+  assert.doesNotMatch(src, /HOST_NOTES_LIMITS = loadLimits\(\)/);
+  assert.equal(JSON.stringify(L), JSON.stringify({ summaryMaxLines: 3, summaryMaxLineChars: 120, documentMaxBytes: 16384, messageMaxChars: 200, historyKept: 20 }));
+});
+
 test("write: a summary at the limits passes", () => {
   assert.deepEqual(c.checkHostNotesSummary([line(120), line(120), line(120)].join("\n")), []);
   assert.deepEqual(c.checkHostNotesSummary(""), []);

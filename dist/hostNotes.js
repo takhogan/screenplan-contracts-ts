@@ -69,7 +69,7 @@ function loadLimits() {
         throw new Error("@screenplan/contracts: the installed @screenplan/contracts-schemas has no host-notes.schema.json; update it");
     }
     const limits = schema["x-limits"];
-    const keys = ["summaryMaxLines", "summaryMaxLineChars", "documentMaxBytes", "messageMaxChars", "historyKept"];
+    const keys = LIMIT_KEYS;
     for (const key of keys) {
         if (!Number.isInteger(limits?.[key]) || limits[key] <= 0) {
             throw new Error(`@screenplan/contracts: host-notes.schema.json x-limits.${key} must be a positive integer`);
@@ -77,8 +77,15 @@ function loadLimits() {
     }
     return Object.freeze(Object.fromEntries(keys.map((key) => [key, limits[key]])));
 }
-/** The limits on host notes, from host-notes.schema.json's x-limits. */
-exports.HOST_NOTES_LIMITS = loadLimits();
+let loaded = null;
+const LIMIT_KEYS = ["summaryMaxLines", "summaryMaxLineChars", "documentMaxBytes", "messageMaxChars", "historyKept"];
+/**
+ * The limits on host notes, from host-notes.schema.json's x-limits. Read on
+ * first use, not at import: an installed @screenplan/contracts-schemas older
+ * than host notes then fails only what uses them, never every importer of
+ * this package (the controller imports it at startup).
+ */
+exports.HOST_NOTES_LIMITS = Object.freeze(Object.defineProperties({}, Object.fromEntries(LIMIT_KEYS.map((key) => [key, { enumerable: true, get: () => (loaded ?? (loaded = loadLimits()))[key] }]))));
 /** Characters as a person counts them: code points, so an emoji is one. */
 function charLength(text) {
     let count = 0;

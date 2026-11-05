@@ -10,7 +10,12 @@ export interface HostNotesLimits {
     /** Changes kept in a document's history. */
     historyKept: number;
 }
-/** The limits on host notes, from host-notes.schema.json's x-limits. */
+/**
+ * The limits on host notes, from host-notes.schema.json's x-limits. Read on
+ * first use, not at import: an installed @screenplan/contracts-schemas older
+ * than host notes then fails only what uses them, never every importer of
+ * this package (the controller imports it at startup).
+ */
 export declare const HOST_NOTES_LIMITS: HostNotesLimits;
 export type HostNotesProblemCode = "not-a-string" | "summary-too-many-lines" | "summary-line-too-long" | "summary-empty-line" | "summary-markdown" | "document-too-large" | "message-too-long" | "looks-like-credential";
 export interface HostNotesProblem {
