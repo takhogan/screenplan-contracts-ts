@@ -13,6 +13,7 @@ import type {
   EventStatus,
   ScriptActionLog,
   ScriptActionArtifactsSpec,
+  HostNotes,
 } from "./types";
 
 const SCHEMA_DIR = path.resolve(
@@ -122,6 +123,15 @@ export const validateArtifactsSpec    = makeValidator<ScriptActionArtifactsSpec>
   "ScriptActionArtifactsSpec",
   vArtifacts,
 );
+
+// Compiled on first use, so a schemas package without host-notes.schema.json
+// fails only this validator, not the import.
+let vHostNotes: ValidateFunction<HostNotes> | undefined;
+/** A stored host-notes document (host-notes.schema.json). Its limits are checked by checkHostNotesDocument. */
+export const validateHostNotes = makeValidator<HostNotes>("HostNotes", () => {
+  vHostNotes ??= ajv.compile<HostNotes>(loadSchema("host-notes.schema.json"));
+  return vHostNotes;
+});
 
 export function getArtifactsSpec(): ScriptActionArtifactsSpec {
   const spec = JSON.parse(

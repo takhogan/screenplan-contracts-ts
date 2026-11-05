@@ -33,9 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.script = exports.script_status = exports.script_action = exports.script_action_result = exports.script_action_log = exports.script_action_data = exports.script_action_artifacts = exports.event_status = exports.common = void 0;
+exports.script = exports.script_status = exports.script_action = exports.script_action_result = exports.script_action_log = exports.script_action_data = exports.script_action_artifacts = exports.host_notes = exports.event_status = exports.common = void 0;
 exports.common = __importStar(require("./common"));
 exports.event_status = __importStar(require("./event-status"));
+exports.host_notes = __importStar(require("./host-notes"));
 exports.script_action_artifacts = __importStar(require("./script-action-artifacts"));
 exports.script_action_data = __importStar(require("./script-action-data"));
 exports.script_action_log = __importStar(require("./script-action-log"));

@@ -1,4 +1,4 @@
-import type { Script, ScriptProps, AgentToolManifest, ScriptAction, ScriptStatus, EventStatus, ScriptActionLog, ScriptActionArtifactsSpec } from "./types";
+import type { Script, ScriptProps, AgentToolManifest, ScriptAction, ScriptStatus, EventStatus, ScriptActionLog, ScriptActionArtifactsSpec, HostNotes } from "./types";
 /** Return the raw JSON schema for the given filename (e.g. "script.schema.json"). */
 export declare function getSchema(name: string): Record<string, unknown>;
 /** List every `*.schema.json` filename shipped by @screenplan/contracts-schemas. */
@@ -41,5 +41,10 @@ export declare const validateScriptActionLog: {
 export declare const validateArtifactsSpec: {
     is: (data: unknown) => data is ScriptActionArtifactsSpec;
     assert: (data: unknown) => ScriptActionArtifactsSpec;
+};
+/** A stored host-notes document (host-notes.schema.json). Its limits are checked by checkHostNotesDocument. */
+export declare const validateHostNotes: {
+    is: (data: unknown) => data is HostNotes;
+    assert: (data: unknown) => HostNotes;
 };
 export declare function getArtifactsSpec(): ScriptActionArtifactsSpec;

@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateArtifactsSpec = exports.validateScriptActionLog = exports.validateEventStatus = exports.validateScriptStatus = exports.validateScriptAction = exports.validateAgentToolManifest = exports.validateScriptProps = exports.validateScript = exports.ContractValidationError = void 0;
+exports.validateHostNotes = exports.validateArtifactsSpec = exports.validateScriptActionLog = exports.validateEventStatus = exports.validateScriptStatus = exports.validateScriptAction = exports.validateAgentToolManifest = exports.validateScriptProps = exports.validateScript = exports.ContractValidationError = void 0;
 exports.getSchema = getSchema;
 exports.listSchemas = listSchemas;
 exports.getArtifactsSpec = getArtifactsSpec;
@@ -141,6 +141,14 @@ exports.validateScriptStatus = makeValidator("ScriptStatus", vStatus);
 exports.validateEventStatus = makeValidator("EventStatus", vEvent);
 exports.validateScriptActionLog = makeValidator("ScriptActionLog", vLog);
 exports.validateArtifactsSpec = makeValidator("ScriptActionArtifactsSpec", vArtifacts);
+// Compiled on first use, so a schemas package without host-notes.schema.json
+// fails only this validator, not the import.
+let vHostNotes;
+/** A stored host-notes document (host-notes.schema.json). Its limits are checked by checkHostNotesDocument. */
+exports.validateHostNotes = makeValidator("HostNotes", () => {
+    vHostNotes ?? (vHostNotes = ajv.compile(loadSchema("host-notes.schema.json")));
+    return vHostNotes;
+});
 function getArtifactsSpec() {
     const spec = JSON.parse(fs.readFileSync(path.join(SCHEMA_DIR, "script-action-artifacts.json"), "utf8"));
     return exports.validateArtifactsSpec.assert(spec);
