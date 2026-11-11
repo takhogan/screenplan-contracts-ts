@@ -529,13 +529,16 @@ export interface CountToThresholdActionData {
     resetCounterAfterBreached?: boolean;
     [k: string]: unknown;
 }
-export interface FileIOActionData {
+/**
+ * dataPersistenceAction (formerly fileIOAction, which still loads and runs with this same data). Reads or writes an image, text, JSON or SQLite file. A relative filePath resolves under the script's assets folder, scriptAssets/{workspace}/{scriptName}/ in the controller's data root, which the engine creates on first use. For sqlite, inputExpression evaluates to the SQL query to run; a write may instead give an object, {table, values} (a dict or a list of dicts, inserted as rows, the table created from their keys if missing) or {query, params}. A read stores its rows, a list of dicts, in outputVarName.
+ */
+export interface DataPersistenceActionData {
     /**
      * Target execution system for a Script/ScriptAction. Matches the prefix of the device id the action was recorded against: adb for avd:, bluestacks: and adb: devices, kvm for pikvm:, ios for an iPhone or iPad attached by USB (ios:<udid>), and python for the host desktop.
      */
     targetSystem: "python" | "adb" | "kvm" | "ios" | "none";
     fileActionType?: "w" | "r" | "wb" | "rb" | "a";
-    fileType?: "image" | "text" | "json";
+    fileType?: "image" | "text" | "json" | "sqlite";
     inputExpression?: string;
     outputVarName?: string;
     filePath?: string;

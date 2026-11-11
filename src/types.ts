@@ -65,6 +65,7 @@ export const SCRIPT_ACTION_NAMES = [
   "returnStatement",
   "imageTransformationAction",
   "countToThresholdAction",
+  "dataPersistenceAction",
   "fileIOAction",
   "maskMergeAction",
   "mouseMoveAction",
@@ -76,3 +77,6 @@ export const SCRIPT_ACTION_NAMES = [
 ] as const;
 
 export type ScriptActionName = (typeof SCRIPT_ACTION_NAMES)[number];
+
+/** @deprecated fileIOAction is now dataPersistenceAction; use DataPersistenceActionData. */
+export type FileIOActionData = import("./_generated/script-action-data").DataPersistenceActionData;

@@ -45,6 +45,7 @@ export type ScriptAction = {
     | "returnStatement"
     | "imageTransformationAction"
     | "countToThresholdAction"
+    | "dataPersistenceAction"
     | "fileIOAction"
     | "maskMergeAction"
     | "mouseMoveAction"
@@ -230,6 +231,10 @@ export interface AgentToolManifest {
    * How long a call waits for the script's run to finish.
    */
   timeoutSeconds?: number;
+  /**
+   * The output that says whether the call did what it is for, such as ok, ready or opened: true is an ok outcome, anything else a failed one. A member must have one to be promoted from a protocol step to a typed tool (docs/agent-toolkits-plan.md §14.4). It must name an output of outputs and of outputs.json, of type boolean.
+   */
+  okOutput?: string;
 }
 /**
  * A JSON Schema for one input or output value, such as { "type": "string", "description": "…" }. Any JSON Schema keyword is allowed.

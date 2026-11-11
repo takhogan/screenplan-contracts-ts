@@ -290,6 +290,7 @@ export interface OtherActionResult {
     | "contextSwitchAction"
     | "countToThresholdAction"
     | "databaseCRUD"
+    | "dataPersistenceAction"
     | "exceptionAction"
     | "fileIOAction"
     | "forLoopAction"

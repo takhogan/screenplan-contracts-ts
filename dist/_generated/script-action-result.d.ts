@@ -274,7 +274,7 @@ export interface ImageToTextFields {
 export interface OtherActionResult {
     format: Format;
     version: Version;
-    action: "calendarAction" | "codeBlock" | "conditionalStatement" | "contextSwitchAction" | "countToThresholdAction" | "databaseCRUD" | "exceptionAction" | "fileIOAction" | "forLoopAction" | "imageTransformationAction" | "interactApplicationAction" | "jsonFileAction" | "keyboardAction" | "logAction" | "matchMergeAction" | "randomVariable" | "returnStatement" | "scriptReference" | "searchPatternContinueAction" | "searchPatternEndAction" | "searchPatternStartAction" | "sendMessageAction" | "shellScript" | "sleepStatement" | "timeAction" | "userSecretManagementAction" | "variableAssignment";
+    action: "calendarAction" | "codeBlock" | "conditionalStatement" | "contextSwitchAction" | "countToThresholdAction" | "databaseCRUD" | "dataPersistenceAction" | "exceptionAction" | "fileIOAction" | "forLoopAction" | "imageTransformationAction" | "interactApplicationAction" | "jsonFileAction" | "keyboardAction" | "logAction" | "matchMergeAction" | "randomVariable" | "returnStatement" | "scriptReference" | "searchPatternContinueAction" | "searchPatternEndAction" | "searchPatternStartAction" | "sendMessageAction" | "shellScript" | "sleepStatement" | "timeAction" | "userSecretManagementAction" | "variableAssignment";
     action_group: ActionGroup;
     script_counter: ScriptCounter;
     fields: EmptyFields;

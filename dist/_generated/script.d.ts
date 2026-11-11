@@ -7,7 +7,7 @@ export type ScriptAction = {
     /**
      * Discriminator for the ScriptAction subtype. Note: searchPatternStartAction / searchPatternContinueAction / searchPatternEndAction are deprecated — retained for loading legacy scripts; do not author new uses.
      */
-    actionName: "jointAction" | "clickAction" | "mouseScrollAction" | "declareScene" | "conditionalStatement" | "shellScript" | "logAction" | "sleepStatement" | "variableAssignment" | "timeAction" | "randomVariable" | "scriptReference" | "dragLocationSource" | "dragLocationTarget" | "detectObject" | "keyboardAction" | "searchPatternStartAction" | "searchPatternContinueAction" | "searchPatternEndAction" | "randomizerAction" | "jsonFileAction" | "exceptionAction" | "navigateAction" | "ImageToTextAction" | "imageToTextAction" | "scale" | "sendMessageAction" | "codeBlock" | "forLoopAction" | "configurationAction" | "ADBConfigurationAction" | "colorCompareAction" | "returnStatement" | "imageTransformationAction" | "countToThresholdAction" | "fileIOAction" | "maskMergeAction" | "mouseMoveAction" | "mouseInteractionAction" | "userPromptAction" | "calendarAction" | "userSecretManagementAction" | "interactApplicationAction";
+    actionName: "jointAction" | "clickAction" | "mouseScrollAction" | "declareScene" | "conditionalStatement" | "shellScript" | "logAction" | "sleepStatement" | "variableAssignment" | "timeAction" | "randomVariable" | "scriptReference" | "dragLocationSource" | "dragLocationTarget" | "detectObject" | "keyboardAction" | "searchPatternStartAction" | "searchPatternContinueAction" | "searchPatternEndAction" | "randomizerAction" | "jsonFileAction" | "exceptionAction" | "navigateAction" | "ImageToTextAction" | "imageToTextAction" | "scale" | "sendMessageAction" | "codeBlock" | "forLoopAction" | "configurationAction" | "ADBConfigurationAction" | "colorCompareAction" | "returnStatement" | "imageTransformationAction" | "countToThresholdAction" | "dataPersistenceAction" | "fileIOAction" | "maskMergeAction" | "mouseMoveAction" | "mouseInteractionAction" | "userPromptAction" | "calendarAction" | "userSecretManagementAction" | "interactApplicationAction";
     /**
      * UI-only: icon descriptor (one of imageIcon|symbolIcon|svgIcon|textIcon|customIcon|blankIcon|gridIcon). Image references are persisted as relative paths or null.
      */
@@ -184,6 +184,10 @@ export interface AgentToolManifest {
      * How long a call waits for the script's run to finish.
      */
     timeoutSeconds?: number;
+    /**
+     * The output that says whether the call did what it is for, such as ok, ready or opened: true is an ok outcome, anything else a failed one. A member must have one to be promoted from a protocol step to a typed tool (docs/agent-toolkits-plan.md §14.4). It must name an output of outputs and of outputs.json, of type boolean.
+     */
+    okOutput?: string;
 }
 /**
  * A JSON Schema for one input or output value, such as { "type": "string", "description": "…" }. Any JSON Schema keyword is allowed.

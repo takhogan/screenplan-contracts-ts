@@ -65,6 +65,7 @@ exports.SCRIPT_ACTION_NAMES = [
     "returnStatement",
     "imageTransformationAction",
     "countToThresholdAction",
+    "dataPersistenceAction",
     "fileIOAction",
     "maskMergeAction",
     "mouseMoveAction",

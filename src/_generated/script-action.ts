@@ -45,6 +45,7 @@ export type ScriptAction = {
     | "returnStatement"
     | "imageTransformationAction"
     | "countToThresholdAction"
+    | "dataPersistenceAction"
     | "fileIOAction"
     | "maskMergeAction"
     | "mouseMoveAction"
