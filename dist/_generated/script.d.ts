@@ -141,6 +141,10 @@ export interface ScriptProps {
      * Interface version 22+: the next rowID to allocate. Never goes down (VERSIONING.md §4.7). Absent before v22.
      */
     rowIDCounter?: number;
+    /**
+     * Optional: which app the script drives, as its author names it (e.g. "ExampleGame"). Scripts with the same app share one UI graph in their workspace (UI_MAPPER.md §2). Absent or empty: the mapper infers the app. A label, not an identifier: matched after trimming, ignoring case.
+     */
+    app?: string;
     agentTool?: AgentToolManifest;
     [k: string]: unknown;
 }

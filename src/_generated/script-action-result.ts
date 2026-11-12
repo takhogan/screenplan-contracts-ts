@@ -1,7 +1,7 @@
 // AUTO-GENERATED from script-action-result.schema.json — do not edit by hand. Run `npm run codegen`.
 
 /**
- * What one action did, as fields: written by ScriptEngine for every action at info and debug level as {counter}-{actionName}-{actionGroup}-result.json, next to its action-log.json, and listed among the action log's supporting_files. The action log is the same for every action; this carries what is specific to each (detect matches, click points, colour scores, OCR text). Source of truth: ScriptEngine/common/logging/action_result.py. Coordinates are pixels of the action's input screenshot unless a field says it is in device coordinates. Every action writes the envelope; an action with nothing of its own has empty fields.
+ * What one action did, as fields: written by ScriptEngine for every action at info and debug level as {counter}-{actionName}-{actionGroup}-result.json, next to its action-log.json, and listed among the action log's supporting_files. The action log is the same for every action; this carries what is specific to each (detect matches, click points, colour scores, OCR text). Source of truth: ScriptEngine/common/logging/action_result.py. Coordinates are pixels of the action's input screenshot unless a field says it is in device coordinates. Every action writes the envelope; an action with nothing of its own has empty fields. Version 2 adds capture: when the action's screenshot was taken and by what. Readers accept both versions.
  */
 export type ScriptActionResult =
   | DetectObjectResult
@@ -9,9 +9,18 @@ export type ScriptActionResult =
   | MouseMoveResult
   | ColorCompareResult
   | ImageToTextResult
+  | KeyboardResult
+  | InteractApplicationResult
   | OtherActionResult;
 export type Format = "screenplan.action-result";
-export type Version = 1;
+/**
+ * 1: the first release. 2: adds capture, and input_at on the input actions. The rest is unchanged, so a reader of version 2 reads version 1 files too.
+ */
+export type Version = 1 | 2;
+/**
+ * UTC, ISO 8601 with milliseconds and a Z, e.g. 2026-11-01T17:09:12.345Z.
+ */
+export type Timestamp = string;
 /**
  * The action's actionGroup in its script.
  */
@@ -21,6 +30,10 @@ export type ActionGroup = number;
  */
 export type ScriptCounter = number;
 /**
+ * Version 2: when the action sent its input to the device (the first of several clicks or keys). Null when it sent none: a mouseUp with no mouse down, a keyboard action on a file device, or a failure before the input.
+ */
+export type InputAt = Timestamp | null;
+/**
  * RGB, 0-255. A measured mean colour can be fractional.
  *
  * @minItems 3
@@ -29,15 +42,43 @@ export type ScriptCounter = number;
 export type Color = [number, number, number];
 
 /**
- * What one action did, as fields: written by ScriptEngine for every action at info and debug level as {counter}-{actionName}-{actionGroup}-result.json, next to its action-log.json, and listed among the action log's supporting_files. The action log is the same for every action; this carries what is specific to each (detect matches, click points, colour scores, OCR text). Source of truth: ScriptEngine/common/logging/action_result.py. Coordinates are pixels of the action's input screenshot unless a field says it is in device coordinates. Every action writes the envelope; an action with nothing of its own has empty fields.
+ * What one action did, as fields: written by ScriptEngine for every action at info and debug level as {counter}-{actionName}-{actionGroup}-result.json, next to its action-log.json, and listed among the action log's supporting_files. The action log is the same for every action; this carries what is specific to each (detect matches, click points, colour scores, OCR text). Source of truth: ScriptEngine/common/logging/action_result.py. Coordinates are pixels of the action's input screenshot unless a field says it is in device coordinates. Every action writes the envelope; an action with nothing of its own has empty fields. Version 2 adds capture: when the action's screenshot was taken and by what. Readers accept both versions.
  */
 export interface DetectObjectResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action: "detectObject";
   action_group: ActionGroup;
   script_counter: ScriptCounter;
   fields: DetectObjectFields;
+}
+/**
+ * Version 2: the image behind the action's pre_file. Actions that share one screenshot record the same capture, so equal sha and captured_at mean they saw the same frame.
+ */
+export interface Capture {
+  /**
+   * The image file, relative to the data root, as in the action log's pre_file.
+   */
+  path: string;
+  /**
+   * SHA-1 of the decoded pixels (row-major bytes), not of the file, so the same frame written twice hashes the same.
+   */
+  sha: string;
+  width: number;
+  height: number;
+  /**
+   * When the device returned the screenshot. Null when the image is not a device screenshot taken in this run: an earlier action's output (a crop, a transformed image) or a file device's image.
+   */
+  captured_at: Timestamp | null;
+  /**
+   * action: a screenshot taken for an action to work on, by this action or by an earlier one whose screenshot it reused. logger: taken by a log-image thread to draw on, after the action had acted, so it shows the screen after the input, not the screen the input was aimed at. Null when captured_at is.
+   */
+  taken_by: "action" | "logger" | null;
+  /**
+   * The script_counter of the action whose log was current when the screenshot was taken: this action's own counter unless the screenshot was reused. A screenshot shared by a parallel group is taken in the first action of the group. Null when captured_at is.
+   */
+  taken_in: number | null;
 }
 /**
  * screenshot is the size of the image searched (the input).
@@ -144,6 +185,7 @@ export interface Match {
 export interface MouseInteractionResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action: "mouseInteractionAction";
   action_group: ActionGroup;
   script_counter: ScriptCounter;
@@ -156,7 +198,12 @@ export interface MouseInteractionFields {
   mouse_action?: string;
   button?: string | null;
   click_count?: number | null;
+  /**
+   * For scroll: scrollDistance as the action gave it to the device.
+   */
+  scroll_distance?: number | null;
   target?: ClickTarget;
+  input_at?: InputAt;
 }
 /**
  * How a mouse action chose its point.
@@ -201,6 +248,7 @@ export interface ClickTarget {
 export interface MouseMoveResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action: "mouseMoveAction";
   action_group: ActionGroup;
   script_counter: ScriptCounter;
@@ -225,10 +273,12 @@ export interface MouseMoveFields {
    * The path the device moved along, on the logged screenshot. Empty for a move with the mouse up.
    */
   path?: Point[];
+  input_at?: InputAt;
 }
 export interface ColorCompareResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action: "colorCompareAction";
   action_group: ActionGroup;
   script_counter: ScriptCounter;
@@ -253,6 +303,7 @@ export interface ColorCompareFields {
 export interface ImageToTextResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action: "imageToTextAction";
   action_group: ActionGroup;
   script_counter: ScriptCounter;
@@ -277,12 +328,63 @@ export interface ImageToTextFields {
    */
   text?: string;
 }
+export interface KeyboardResult {
+  format: Format;
+  version: Version;
+  capture?: Capture;
+  action: "keyboardAction";
+  action_group: ActionGroup;
+  script_counter: ScriptCounter;
+  /**
+   * Empty in version 1.
+   */
+  fields: KeyboardFields | EmptyFields;
+}
+export interface KeyboardFields {
+  keyboard_action?: "hotkey" | "keyDown" | "keyUp" | "keyPress";
+  /**
+   * The keys sent, in order: a hotkey's chord, or each key pressed. Null when masked.
+   */
+  keys?: string[] | null;
+  /**
+   * The keys came from a secret, so neither they nor their count are recorded.
+   */
+  masked?: boolean;
+  input_at?: InputAt;
+}
+export interface EmptyFields {}
+export interface InteractApplicationResult {
+  format: Format;
+  version: Version;
+  capture?: Capture;
+  action: "interactApplicationAction";
+  action_group: ActionGroup;
+  script_counter: ScriptCounter;
+  /**
+   * Empty in version 1.
+   */
+  fields: InteractApplicationFields | EmptyFields;
+}
+export interface InteractApplicationFields {
+  application_action?: "start" | "stop";
+  /**
+   * applicationName: a package on adb, a program or process name on a desktop.
+   */
+  application?: string;
+  /**
+   * actionPayload, for start: an activity on adb, arguments on a desktop.
+   */
+  payload?: string | null;
+  succeeded?: boolean;
+  input_at?: InputAt;
+}
 /**
  * Actions that do not record fields of their own yet.
  */
 export interface OtherActionResult {
   format: Format;
   version: Version;
+  capture?: Capture;
   action:
     | "calendarAction"
     | "codeBlock"
@@ -295,9 +397,7 @@ export interface OtherActionResult {
     | "fileIOAction"
     | "forLoopAction"
     | "imageTransformationAction"
-    | "interactApplicationAction"
     | "jsonFileAction"
-    | "keyboardAction"
     | "logAction"
     | "matchMergeAction"
     | "randomVariable"
@@ -316,4 +416,3 @@ export interface OtherActionResult {
   script_counter: ScriptCounter;
   fields: EmptyFields;
 }
-export interface EmptyFields {}

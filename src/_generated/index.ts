@@ -7,4 +7,7 @@ export * as script_action_log from "./script-action-log";
 export * as script_action_result from "./script-action-result";
 export * as script_action from "./script-action";
 export * as script_status from "./script-status";
+export * as script_versions from "./script-versions";
 export * as script from "./script";
+export * as ui_graph_run from "./ui-graph-run";
+export * as ui_graph from "./ui-graph";
